@@ -29,7 +29,7 @@ const SignUp = () => {
         console.log(result);
         const secret = result.data.secret;
         // tạo mã QR code
-        const otpauth = `otpauth://totp/${email}?secret=${secret}&issuer=youtube_mini`;
+        const otpauth = `otpauth://totp/${email}?secret=${secret}&issuer=Node44_youtube`;
         QRCode.toDataURL(otpauth)
           .then((qrCodeUrl) => {
             setQrCode(qrCodeUrl);

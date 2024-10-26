@@ -11,6 +11,16 @@ const options = {
   },
 };
 
+const options1 = {
+  params: {
+    maxResults: 50,
+  },
+  headers: {
+    'token': localStorage.getItem("LOGIN_USER"),
+    'Content-Type': 'multipart/form-data'
+  },
+};
+
 // Tạo một istance axious
 export const axiosInstance = axios.create({
   baseURL: `${BASE_URL}`
@@ -89,6 +99,17 @@ export const getType = async ()=>{
   const{data}=await axiosInstance.get(`${BASE_URL}/video/get-types`,options);
   return data;
 }
+
+export const uploadfile = async (payload)=>{
+  const{data}=await axiosInstance.post(`${BASE_URL}/users/upload-avatar`,payload, options1);
+  return data;
+}
+
+export const uploadfileVideo = async (payload)=>{
+  const{data}=await axiosInstance.post(`${BASE_URL}/video/upload-video`,payload, options1);
+  return data;
+}
+
 
 export const getListVideoType = async(typeid)=>{
     const {data} = await axiosInstance.get(`${BASE_URL}/video/get-typpes-details/${typeid}`);

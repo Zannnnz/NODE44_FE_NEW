@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 import { Box, CardMedia } from "@mui/material";
 
@@ -6,6 +6,7 @@ import { Videos, ChannelCard } from ".";
 
 import ReactPlayer from "react-player";
 import { DOMAIN_BE_IMG } from "../utils/constants";
+import { uploadfile } from "../utils/fetchFromAPI";
 
 const InfoUser = () => {
   const [channelDetail, setChannelDetail] = useState();
@@ -15,9 +16,25 @@ const InfoUser = () => {
 
   const { id } = useParams();
 
+  const formFile = useRef()
+
   useEffect(() => {
 
   }, []);
+
+  const handleUpload = () => {
+   const file = formFile.current.files[0]
+   const formData = new FormData()
+   formData.append('hinhanh', file);
+
+   uploadfile(formData)
+     .then((result) => {
+      console.log("result", result)
+     })
+     .catch((error) => {
+      //  toast.error(message);
+     });
+  } 
 
   return <div className="p-5" style={{ minHeight: "95vh" }}>
 
@@ -35,7 +52,7 @@ const InfoUser = () => {
           <div className="col-2">
             <img className="rounded-circle" src={avatar} width="100%" />
 
-            <input className="form-control" type="file" id="formFile" />
+            <input className="form-control" type="file" id="formFile" ref={formFile} />
 
           </div>
           <div className=" col-10">
@@ -55,7 +72,7 @@ const InfoUser = () => {
 
 
               <div className="col-12">
-                <button type="button" className="btn btn-primary" >Update</button>
+                <button type="button" className="btn btn-primary" onClick={() => handleUpload()} >Update</button>
               </div>
             </form>
 

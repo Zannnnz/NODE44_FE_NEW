@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Box, CardMedia } from "@mui/material";
 
 import { Videos, ChannelCard } from ".";
-import { loginAPI, loginAsyncKey, loginFaceBooKAPI } from "../utils/fetchFromAPI";
+import { loginAPI, loginAsyncKey, loginFaceBooKAPI, uploadfile, uploadfileVideo } from "../utils/fetchFromAPI";
 import { toast } from "react-toastify";
 import ReactFacebookLogin from  'react-facebook-login';
 
@@ -14,6 +14,42 @@ const Login = () => {
 
   const { id } = useParams();
   const navigate = useNavigate();
+  const formFile = useRef()
+  const formFileVideo = useRef()
+
+  const handleUpload = () => {
+    
+    const file = formFile.current.files[0]
+    const formData = new FormData()
+    formData.append('hinhanh', file);
+
+ 
+    uploadfile(formData)
+      .then((result) => {
+       console.log("result", result)
+      })
+      .catch((error) => {
+       //  toast.error(message);
+      });
+   } 
+
+   const handleUploadVideo = () => {
+    
+    const file = formFileVideo.current.files[0]
+    console.log("a", file)
+
+    const formData = new FormData()
+    formData.append('video', file);
+
+ 
+    uploadfileVideo(formData)
+      .then((result) => {
+       console.log("result", result)
+      })
+      .catch((error) => {
+       //  toast.error(message);
+      });
+   } 
 
   useEffect(() => {
 
@@ -91,7 +127,22 @@ const Login = () => {
             }}
           />
         </div>
+
+        
       </form>
+
+
+      <form>
+      <input className="form-control" type="file" id="formFile" ref={formFile} />
+      <button type="button" className="btn btn-primary" onClick={() => handleUpload()} >Update</button>
+      </form>
+
+      
+      <form>
+      <input className="form-control" type="file" id="formFile" ref={formFileVideo} />
+      <button type="button" className="btn btn-primary" onClick={() => handleUploadVideo()} >Update Video</button>
+      </form>
+
     </div>
   </div>
 };
